@@ -23,6 +23,8 @@ public:
   int getLossCount() { return loss_count_; }
   int getId() const { return id_; }
   double getTotalDistanceTraveled() const;
+  Eigen::MatrixXd getSMatrix() { return kf_.getSMatrix(); }
+  Eigen::VectorXd getMeasureDifferenceY(const Eigen::VectorXd &z){ return kf_.getMeasureDifferenceY(z); }
 
 private:
   // filter

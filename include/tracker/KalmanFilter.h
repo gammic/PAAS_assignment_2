@@ -15,6 +15,10 @@ public:
   void predict();
   void update(const Eigen::VectorXd& z);
 
+  Eigen::MatrixXd getSMatrix();
+
+  Eigen::VectorXd getMeasureDifferenceY(const Eigen::VectorXd &z);
+
   // setters
   void setState(double x, double y);
 

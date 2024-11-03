@@ -4,6 +4,7 @@
 #include "tracker/Tracklet.h"
 #include <limits>
 #include <unordered_set>
+#include <unordered_map>
 
 class Tracker
 {
@@ -30,7 +31,8 @@ public:
              bool lidarStatus);
 
   void updateAreaCount();
-  int getAreaCount() const;
+  std::pair<int, std::vector<int>> getAreaCountandIds() const;
+  std::pair<int, unsigned int> getIdMostTimeinArea();
   // getters
   const std::vector<Tracklet> &getTracks() { return tracks_; }
 
@@ -47,7 +49,7 @@ private:
   double covariance_threshold;
   int loss_threshold;
 
-  std::unordered_set<int> tracklets_in_area;
+  std::unordered_map<int,unsigned int> tracklets_in_area;
   bool isTrackletInArea(const Tracklet &tracklet);
 };
 
