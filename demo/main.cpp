@@ -1,25 +1,46 @@
 #include <fstream>
-
+#include <iostream>
+#include <thread>
+#include <atomic>
 #include "viewer/Renderer.h"
 #include "tracker/Tracker.h"
 #include "CloudManager.h"
-#include <GLFW/glfw3.h>
+
+std::atomic<bool> running(true);
+
+void inputThread() {
+    char c;
+    while (running) {
+        std::cin >> c;
+        if (c == 'P' || c == 'p') {
+            std::cout << "Visualizzazione attualmente in pausa. Premere P per riattivarla.\n";
+            running = false; 
+            
+            std::cin >> c; 
+            if (c == 'P' || c == 'p') {
+                running = true; 
+            }
+        }
+    }
+}
+
 
 int main(int argc, char *argv[])
 {
+    std::thread input(inputThread);
+
     int64_t freq = 100;            // Frequency of the thread dedicated to process the point cloud
     std::string log_path = "log";  // TODO: define the path to the log folder
     double Max_dist=0;
     int id=-1;
 
-    double area_min_x = -1.0;
-    double area_max_x = 0.0;
-    double area_min_y = -1.0;
-    double area_max_y = 0.0;
-    double area_min_z = -2.0;
+    
+    double area_min_x = -2.0;
+    double area_max_x = 2.0;
+    double area_min_y = -2.0;
+    double area_max_y = 2.0;
+    double area_min_z = -1.0;
     double area_max_z = 1.0;
-
-    bool is_running=true;
 
     std::ifstream dataFile(log_path, std::ios::in | std::ios::binary);
     if (!dataFile)
@@ -49,9 +70,8 @@ int main(int argc, char *argv[])
     viewer::Color areaColor(0,1,0);
     while (true)
     {
-        char key = getKeyPress();
-        handleKeyboardInput(key);
-        if (is_running){
+        
+        if (running){
         // Clear the render
             renderer.clearViewer();
 
@@ -104,15 +124,17 @@ int main(int argc, char *argv[])
                     << " ha percorso la distanza maggiore fino a questo momento, pari a " << Max_dist << " metri\n";
 
             tracker.updateAreaCount();
-            int count = tracker.getAreaCount();
+            auto [count,ids] = tracker.getAreaCountandIds();
             std::cout << "Nell'area verde sono passate " << count
-                    << " persone\n";
-            
+                    << " persone, quelle con ID: ";
+            for(int id:ids){
+                std::cout << id << " ";
+            }
+            std::cout << std::endl;
+            auto [idMT, max_time]= tracker.getIdMostTimeinArea();
+            std::cout << "La persona che ha passato più tempo nell'area verde è quella con ID " << idMT << " con una durata pari a " << max_time << " frame\n";
             renderer.renderBox(area, -1, areaColor,0.25);
             renderer.spinViewerOnce();
-        }
-        else{
-            std::cout<< "Visualizzazione attualmente in pausa, premere P nuovamente per riattivarla\n";
         }
     }
 
@@ -120,9 +142,5 @@ int main(int argc, char *argv[])
     return 0;
 }
 
-void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
-    if (key == GLFW_KEY_P && action == GLFW_PRESS) {
-        isRunning = !isRunning;
-    }
-}
+
 
