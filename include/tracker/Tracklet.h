@@ -18,6 +18,7 @@ public:
   // getters
   double getX() const { return kf_.getX(); }
   double getY() const { return kf_.getY(); }
+  //double getYaw() const {return kf_.getYaw();}
   double getXCovariance() { return kf_.getXCovariance(); }
   double getYCovariance() { return kf_.getYCovariance(); }
   int getLossCount() { return loss_count_; }

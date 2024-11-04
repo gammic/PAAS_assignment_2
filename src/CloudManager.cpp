@@ -1,4 +1,5 @@
 #include "CloudManager.h"
+#include <pcl/common/pca.h>
 using namespace std;
 
 CloudManager::CloudManager(const std::string &path, int64_t freq, viewer::Renderer &renderer)
@@ -98,6 +99,7 @@ void CloudManager::processAndRenderPointCloud(const pcl::PointCloud<pcl::PointXY
         std::vector<double> centroids_x;
         std::vector<double> centroids_y;
         std::vector<double> centroids_z;
+        std::vector<double> yaws; // Inizializzazione yaw
 
         std::vector<viewer::Box> boxes;
 
@@ -124,6 +126,15 @@ void CloudManager::processAndRenderPointCloud(const pcl::PointCloud<pcl::PointXY
                 centroids_x.push_back((minPt.x + maxPt.x) / 2.0);
                 centroids_y.push_back((minPt.y + maxPt.y) / 2.0);
                 centroids_z.push_back((minPt.z + maxPt.z) / 2.0);
+                /*
+                //Ottengo componente principale tramite PCA
+                pcl::PCA<pcl::PointXYZ> pca;
+                pca.setInputCloud(cloud_cluster);
+                Eigen::Vector3f eigen_vec = pca.getEigenVectors().col(0);
+            
+                //Calcolo yaw in radianti
+                double yaw = std::atan2(eigen_vec.y(), eigen_vec.x());
+                yaws.push_back(yaw);*/
             }
         }
 
@@ -133,6 +144,7 @@ void CloudManager::processAndRenderPointCloud(const pcl::PointCloud<pcl::PointXY
         centroids_x_ = centroids_x;
         centroids_y_ = centroids_y;
         centroids_z_ = centroids_z;
+        //yaws_=yaws;
         boxes_ = boxes;
         copyPointCloud(*cloud_filtered, *cloud_);
         new_measurement = true;

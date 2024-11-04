@@ -13,31 +13,31 @@ void KalmanFilter::init(double dt)
   dt_ = dt;
 
   // create a 4D state vector
-  x_ = Eigen::VectorXd(4);
+  x_ = Eigen::VectorXd(4); //5 dimensioni nel caso di yaw
 
   // Initialize the state covariance matrix P
-  P_ = Eigen::MatrixXd(4, 4);
+  P_ = Eigen::MatrixXd(4, 4); //(5,5)
   P_ << 1., 0., 0., 0.,
       0., 1., 0., 0.,
       0., 0., 1000., 0.,
       0., 0., 0., 1000.;
 
   // measurement covariance
-  R_ = Eigen::MatrixXd(2, 2);
+  R_ = Eigen::MatrixXd(2, 2); //(3,3)
   R_ << 0.0225, 0.,
       0., 0.0225;
 
   // measurement matrix
-  H_ = Eigen::MatrixXd(2, 4);
+  H_ = Eigen::MatrixXd(2, 4); //(3,5)
   H_ << 1., 0., 0., 0.,
       0., 1., 0., 0.;
 
   // the transition matrix F
-  F_ = Eigen::MatrixXd(4, 4);
+  F_ = Eigen::MatrixXd(4, 4); //(5,5)
   F_ << 1., 0., dt_, 0.,
       0., 1., 0., dt_,
       0., 0., 1., 0.,
-      0., 0., 0., 1.;
+      0.,0.,0.,1.;
 
   // set the acceleration noise components
   double noise_ax_ = 2.;
@@ -48,7 +48,7 @@ void KalmanFilter::init(double dt)
   double dt_4 = dt_3 * dt_;
 
   // set the process covariance matrix Q
-  Q_ = Eigen::MatrixXd(4, 4);
+  Q_ = Eigen::MatrixXd(4, 4); //(5,5)
   Q_ << dt_4 / 4. * noise_ax_, 0., dt_3 / 2. * noise_ax_, 0.,
       0., dt_4 / 4. * noise_ay_, 0., dt_3 / 2. * noise_ay_,
       dt_3 / 2. * noise_ax_, 0., dt_2 * noise_ax_, 0.,
@@ -80,5 +80,15 @@ void KalmanFilter::update(const Eigen::VectorXd &z)
 
 void KalmanFilter::setState(double x, double y)
 {
-  x_ << x, y, 0., 0.;
+  x_ << x, y, 0., 0.; //Qui veniva inserito anche yaw
+}
+
+Eigen::MatrixXd KalmanFilter::getSMatrix(){
+  Eigen::MatrixXd S = H_ * P_ * H_.transpose() + R_;
+  return S; 
+}
+
+Eigen::VectorXd KalmanFilter::getMeasureDifferenceY(const Eigen::VectorXd &z){
+  Eigen::VectorXd y = z - H_ * x_;
+  return y; 
 }

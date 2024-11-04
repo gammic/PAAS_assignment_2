@@ -1,6 +1,6 @@
 #include "tracker/Tracklet.h"
 
-Tracklet::Tracklet(int idTrack, double x, double y)
+Tracklet::Tracklet(int idTrack, double x, double y) //Qui veniva passato anche yaw
 {
   // set id
   id_ = idTrack;
@@ -13,6 +13,8 @@ Tracklet::Tracklet(int idTrack, double x, double y)
 
   // set loss count to 0
   loss_count_ = 0;
+  total_dist=0.0;
+  last_position_ = Eigen::Vector2d(x, y);
 }
 
 Tracklet::~Tracklet()
@@ -27,7 +29,7 @@ void Tracklet::predict()
 }
 
 // Update with a real measurement
-void Tracklet::update(double x, double y, bool lidarStatus)
+void Tracklet::update(double x, double y, bool lidarStatus) //Qui veniva passato yaw
 {
   Eigen::VectorXd raw_measurements_ = Eigen::VectorXd(2);
 

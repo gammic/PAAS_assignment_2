@@ -1,34 +1,24 @@
 #include "tracker/Tracker.h"
 
-double area_min_x = -1.0;
-double area_max_x = 0.0;
-double area_min_y = -1.0;
-double area_max_y = 0.0;
-double area_min_z = -2.0;
+double area_min_x = -2.0;
+double area_max_x = 2.0;
+double area_min_y = -2.0;
+double area_max_y = 2.0;
+double area_min_z = -1.0;
 double area_max_z = 1.0;
 
 Tracker::Tracker()
 {
     cur_id_ = 0;
-    distance_threshold_ = 0.5; // meters
-    covariance_threshold = 2000; 
-    loss_threshold = 15; //number of frames the track has not been seen
+    distance_threshold_ = 2; // meters
+    covariance_threshold = 1; 
+    loss_threshold = 30; //number of frames the track has not been seen
 }
 Tracker::~Tracker()
 {
 }
 
-void Tracker::updateAreaCount() {
-    for (const auto &tracklet : tracks_) {
-        if (isTrackletInArea(tracklet)) {
-            tracklets_in_area.insert(tracklet.getId());
-        }
-    }
-}
 
-int Tracker::getAreaCount() const {
-    return tracklets_in_area.size();
-}
 
 /*
     This function removes tracks based on any strategy
@@ -50,6 +40,7 @@ void Tracker::removeTracks()
 /*
     This function add new tracks to the set of tracks ("tracks_" is the object that contains this)
 */
+//Qui veniva passato il vettore dei yaw
 void Tracker::addTracks(const std::vector<bool> &associated_detections, const std::vector<double> &centroids_x, const std::vector<double> &centroids_y)
 {
     // Adding not associated detections
@@ -84,7 +75,7 @@ void Tracker::dataAssociation(std::vector<bool> &associated_detections, const st
             double dx = centroids_x[j] - tracks_[i].getX();
             double dy = centroids_y[j] - tracks_[i].getY();
             Eigen::MatrixXd S = tracks_[i].getSMatrix();
-
+            double dist;
             Eigen::VectorXd z = Eigen::VectorXd(2);
             z << centroids_x[j], centroids_y[j];
 
@@ -131,7 +122,7 @@ void Tracker::track(const std::vector<double> &centroids_x,
     {
         auto det_id = associated_track_det_ids_[i].first;
         auto track_id = associated_track_det_ids_[i].second;
-        tracks_[track_id].update(centroids_x[det_id], centroids_y[det_id], lidarStatus);
+        tracks_[track_id].update(centroids_x[det_id], centroids_y[det_id],lidarStatus);
     }
 
     // TODO: Remove dead tracklets
@@ -153,7 +144,7 @@ std::pair<int, double> Tracker::getLongestDistanceTracklet() const
         if (track.getTotalDistanceTraveled() > max_distance)
         {
             max_distance = track.getTotalDistanceTraveled();
-            longest_tracklet_id = track.getId(); // Assicurati che getId() restituisca l'ID della traccia
+            longest_tracklet_id = track.getId(); 
         }
     }
 
@@ -182,3 +173,32 @@ bool Tracker::isTrackletInArea(const Tracklet &tracklet) {
     return (x >= area_min_x && x <= area_max_x && y >= area_min_y && y <= area_max_y);
 }
 
+void Tracker::updateAreaCount() {
+    for (const auto &tracklet : tracks_) {
+        int id=tracklet.getId();
+        if (isTrackletInArea(tracklet)) {
+            tracklets_in_area[id]++;
+        }
+    }
+}
+
+std::pair<int, std::vector<int>> Tracker::getAreaCountandIds() const {
+    std::vector<int> ids;
+    for (const auto& entry : tracklets_in_area) {
+        ids.push_back(entry.first);
+    }
+    return {ids.size(), ids};
+}
+
+
+std::pair<int, unsigned int> Tracker::getIdMostTimeinArea(){
+    int id=-1;
+    unsigned int max_time=0;
+    for(auto i = tracklets_in_area.begin(); i!=tracklets_in_area.end(); i++){
+        if(i->second > max_time){
+            id=i->first;
+            max_time = i->second;
+        }
+    }
+    return {id, max_time};
+}

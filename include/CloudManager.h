@@ -30,6 +30,7 @@ public:
   std::vector<double> getCentroidsX() { return centroids_x_; }
   std::vector<double> getCentroidsY() { return centroids_y_; }
   std::vector<double> getCentroidsZ() { return centroids_z_; }
+  //std::vector<double> getYaws(){ return yaws_; }
 
   // data handlers
   bool new_measurement = false;
@@ -51,6 +52,7 @@ private:
   std::vector<double> centroids_x_;
   std::vector<double> centroids_y_;
   std::vector<double> centroids_z_;
+  //std::vector<double> yaws_;
 
   // processing frequency
   int64_t freq_;

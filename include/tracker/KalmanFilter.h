@@ -27,12 +27,15 @@ public:
   double getYCovariance() { return P_.coeff(1, 1); }
   double getX() const { return x_[0]; }
   double getY() const { return x_[1]; }
+  //double getYaw() const { return x_[2]; }
 
   Eigen::Vector2d getPosition() const;
 
 private:
   // dt in seconds
   double dt_;
+
+  double yaw;
 
   // state vector
   Eigen::VectorXd x_;
