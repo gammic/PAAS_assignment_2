@@ -1,0 +1,74 @@
+Determining if the pthread_create exist failed with the following output:
+Change Dir: /media/sf_Guida_autonoma/Assignment/Assignment_2/KF_assignment_2024/inf_assignment_2/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_98f84/fast"
+make: Attenzione: il file "Makefile" ha un orario di modifica 0,66 nel futuro
+/usr/bin/make -f CMakeFiles/cmTC_98f84.dir/build.make CMakeFiles/cmTC_98f84.dir/build
+make[1]: ingresso nella directory "/media/sf_Guida_autonoma/Assignment/Assignment_2/KF_assignment_2024/inf_assignment_2/build/CMakeFiles/CMakeTmp"
+make[1]: Attenzione: il file "CMakeFiles/cmTC_98f84.dir/flags.make" ha un orario di modifica 0,65 nel futuro
+Building CXX object CMakeFiles/cmTC_98f84.dir/CheckSymbolExists.cxx.o
+/usr/bin/c++    -std=c++14 -fPIC     -o CMakeFiles/cmTC_98f84.dir/CheckSymbolExists.cxx.o -c /media/sf_Guida_autonoma/Assignment/Assignment_2/KF_assignment_2024/inf_assignment_2/build/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx
+Linking CXX executable cmTC_98f84
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_98f84.dir/link.txt --verbose=1
+/usr/bin/c++   -std=c++14 -fPIC      -rdynamic CMakeFiles/cmTC_98f84.dir/CheckSymbolExists.cxx.o  -o cmTC_98f84 
+CMakeFiles/cmTC_98f84.dir/CheckSymbolExists.cxx.o: nella funzione "main":
+CheckSymbolExists.cxx:(.text+0x1b): riferimento non definito a "pthread_create"
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_98f84.dir/build.make:97: recipe for target 'cmTC_98f84' failed
+make[1]: *** [cmTC_98f84] Error 1
+make[1]: uscita dalla directory "/media/sf_Guida_autonoma/Assignment/Assignment_2/KF_assignment_2024/inf_assignment_2/build/CMakeFiles/CMakeTmp"
+Makefile:126: recipe for target 'cmTC_98f84/fast' failed
+make: *** [cmTC_98f84/fast] Error 2
+
+File /media/sf_Guida_autonoma/Assignment/Assignment_2/KF_assignment_2024/inf_assignment_2/build/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx:
+/* */
+#include <pthread.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef pthread_create
+  return ((int*)(&pthread_create))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+
+Determining if the function pthread_create exists in the pthreads failed with the following output:
+Change Dir: /media/sf_Guida_autonoma/Assignment/Assignment_2/KF_assignment_2024/inf_assignment_2/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_bd009/fast"
+make: Attenzione: il file "Makefile" ha un orario di modifica 0,66 nel futuro
+/usr/bin/make -f CMakeFiles/cmTC_bd009.dir/build.make CMakeFiles/cmTC_bd009.dir/build
+make[1]: ingresso nella directory "/media/sf_Guida_autonoma/Assignment/Assignment_2/KF_assignment_2024/inf_assignment_2/build/CMakeFiles/CMakeTmp"
+make[1]: Attenzione: il file "CMakeFiles/cmTC_bd009.dir/flags.make" ha un orario di modifica 0,65 nel futuro
+Building CXX object CMakeFiles/cmTC_bd009.dir/CheckFunctionExists.cxx.o
+/usr/bin/c++    -std=c++14 -fPIC  -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_bd009.dir/CheckFunctionExists.cxx.o -c /media/sf_Guida_autonoma/Assignment/Assignment_2/KF_assignment_2024/inf_assignment_2/build/CMakeFiles/CheckLibraryExists/CheckFunctionExists.cxx
+Linking CXX executable cmTC_bd009
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_bd009.dir/link.txt --verbose=1
+/usr/bin/c++   -std=c++14 -fPIC  -DCHECK_FUNCTION_EXISTS=pthread_create    -rdynamic CMakeFiles/cmTC_bd009.dir/CheckFunctionExists.cxx.o  -o cmTC_bd009 -lpthreads 
+/usr/bin/ld: impossibile trovare -lpthreads
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_bd009.dir/build.make:97: recipe for target 'cmTC_bd009' failed
+make[1]: *** [cmTC_bd009] Error 1
+make[1]: uscita dalla directory "/media/sf_Guida_autonoma/Assignment/Assignment_2/KF_assignment_2024/inf_assignment_2/build/CMakeFiles/CMakeTmp"
+Makefile:126: recipe for target 'cmTC_bd009/fast' failed
+make: *** [cmTC_bd009/fast] Error 2
+
+
+Determining if the function pthread_create exists in the pthread failed with the following output:
+Change Dir: /media/sf_Guida_autonoma/Assignment/Assignment_2/KF_assignment_2024/inf_assignment_2/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_9edb1/fast"
+make: Attenzione: il file "Makefile" ha un orario di modifica 0,67 nel futuro
+/usr/bin/make -f CMakeFiles/cmTC_9edb1.dir/build.make CMakeFiles/cmTC_9edb1.dir/build
+make[1]: ingresso nella directory "/media/sf_Guida_autonoma/Assignment/Assignment_2/KF_assignment_2024/inf_assignment_2/build/CMakeFiles/CMakeTmp"
+CMakeFiles/cmTC_9edb1.dir/build.make:55: CMakeFiles/cmTC_9edb1.dir/depend.make: File o directory non esistente
+make[1]: Attenzione: il file "CMakeFiles/cmTC_9edb1.dir/flags.make" ha un orario di modifica 0,66 nel futuro
+make[1]: ***  Nessuna regola per generare l'obiettivo "CMakeFiles/cmTC_9edb1.dir/depend.make".  Arresto.
+make[1]: uscita dalla directory "/media/sf_Guida_autonoma/Assignment/Assignment_2/KF_assignment_2024/inf_assignment_2/build/CMakeFiles/CMakeTmp"
+Makefile:126: recipe for target 'cmTC_9edb1/fast' failed
+make: *** [cmTC_9edb1/fast] Error 2
+
+
