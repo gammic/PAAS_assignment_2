@@ -85,6 +85,7 @@ int main(int argc, char *argv[])
             auto boxes = lidar_cloud.getBoxes();
             auto centroids_x = lidar_cloud.getCentroidsX();
             auto centroids_y = lidar_cloud.getCentroidsY();
+            //auto yaws=lidar_cloud.getYaws(); //Utilizza il metodo creato per ottenere i yaw tramite PCA
             lidar_cloud.new_measurement = false;
             lidar_cloud.mtxData.unlock();
 
@@ -101,8 +102,26 @@ int main(int argc, char *argv[])
             auto tracks = tracker.getTracks();
             for (size_t i = 0; i < tracks.size(); ++i)
             {
-                renderer.addCircle(tracks[i].getX(), tracks[i].getY(), tracks[i].getId());
-                renderer.addText(tracks[i].getX() + 0.01, tracks[i].getY() + 0.01, tracks[i].getId());
+                double X =tracks[i].getX();
+                double Y =tracks[i].getY();
+                /*double yaw= tracks[i].getYaw();
+                std::cout<< yaw;*/
+                renderer.addCircle(X, Y, tracks[i].getId());
+                renderer.addText(X + 0.01, Y + 0.01, tracks[i].getId());
+
+                //Visualizzazione yaw tramite box rappresentante la direzione
+                /*double dir_length=0.1;
+                double dir_end_x = X + dir_length * cos(yaw);
+                double dir_end_y = Y + dir_length * sin(yaw);
+                viewer::Box dir;
+                dir.x_min = X;
+                dir.y_min = Y;
+                dir.z_min = -0.9;
+                dir.x_max = dir_end_x;
+                dir.y_max = dir_end_y;
+                dir.z_max = -1.0;
+                viewer::Color dirColor(1,1,1);*/
+
             }
 
             // Retrieve and display the ID and distance of the longest-traveled tracklet
