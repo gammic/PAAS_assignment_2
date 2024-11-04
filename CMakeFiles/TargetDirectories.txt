@@ -1,4 +1,0 @@
-/media/sf_Guida_autonoma/Assignment/Assignment_2/KF_assignment_2024/inf_assignment_2/build/CMakeFiles/rebuild_cache.dir
-/media/sf_Guida_autonoma/Assignment/Assignment_2/KF_assignment_2024/inf_assignment_2/build/CMakeFiles/tracker.dir
-/media/sf_Guida_autonoma/Assignment/Assignment_2/KF_assignment_2024/inf_assignment_2/build/CMakeFiles/edit_cache.dir
-/media/sf_Guida_autonoma/Assignment/Assignment_2/KF_assignment_2024/inf_assignment_2/build/CMakeFiles/main.dir
